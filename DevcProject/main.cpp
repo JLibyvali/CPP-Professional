@@ -31,7 +31,7 @@ int binary( const std::array<int,10>&  _arr,int _left, int _right, int _x){
 	return -1;
 
 }
-int main() {
+int main() {	// Binary search algorithm
 	
 
 	int num;

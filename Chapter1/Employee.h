@@ -9,14 +9,21 @@
 #include <string>
 
 namespace  Records{
-    const int defaultSalary {30'000};
-    export  const int defaultChangeAmount {1'000};
+    const int defaultSalary { 30'000 };
+    const int defaultChangeAmount {1'000};
+    class Employee;
 }
 
-export  class Employee{
+class Records::Employee{
 
+private:
+     std::string m_firstName,m_lastName;
+     int m_employeeNum {-1};
+     int m_salary {30'000} ;
+     bool m_hired {false} ;
 public:
     // function for employee;
+    Employee() = default;
     Employee(const std::string& firstname,const std::string& lastname);
     void promote(int raiseAmount = Records::defaultChangeAmount);
     void demote(int demeritAmount = Records::defaultChangeAmount);
@@ -66,10 +73,4 @@ public:
     }
 
 
-
-private:
-    std::string m_firstName,m_lastName;
-    int m_employeeNum {-1};
-    int m_salary {30'000} ;
-    bool m_hired {false} ;
 };

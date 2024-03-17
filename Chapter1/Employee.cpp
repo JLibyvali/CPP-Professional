@@ -4,10 +4,12 @@
 
 #include <iostream>
 #include <format>
+#include "Employee.h"
 
 using  namespace  std;
 
 namespace  Records{
 
-//        Employee::Employee(const std::string &firstname, const std::string &lastname) {}
+        Employee::Employee(const std::string &firstname, const std::string &lastname) {}
+
 }

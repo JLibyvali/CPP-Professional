@@ -5,7 +5,57 @@
 #include "SpreadsheetInterface.h"
 #include "iostream"
 #include <utility>
+
 using namespace  std;
+
+//#############################Spreadsheet Implementation#######################################
+// ####Spreadsheet implementation
+// ####Ctor's set, first let Spreadsheet's m_impl point to Impl class
+Spreadsheet::Spreadsheet() {
+    m_impl = make_unique<Impl>();
+}
+
+Spreadsheet::~Spreadsheet(){
+    m_impl->~Impl();
+};    // it will auto find ~Impl()
+
+Spreadsheet::Spreadsheet(size_t width, size_t height) {
+    m_impl = make_unique<Impl>(width, height);  // point to Impl(size_t width, size_t height)
+}
+
+Spreadsheet::Spreadsheet(const Spreadsheet &src) {
+    m_impl = make_unique<Impl>(*src.m_impl);
+}
+
+Spreadsheet::Spreadsheet(Spreadsheet &&rhs) noexcept{
+    m_impl = make_unique<Impl>(*std::move(rhs.m_impl));
+}
+
+// ################Spreadsheet operator implementation
+Spreadsheet &Spreadsheet::operator=(const Spreadsheet &src) {
+    *m_impl = *src.m_impl;
+    return *this;
+}
+
+Spreadsheet &Spreadsheet::operator=(Spreadsheet &&rhs) noexcept {
+
+    if (this != &rhs) {
+        m_impl = std::move(rhs.m_impl);
+    }
+    return *this;
+}
+
+
+// another
+void Spreadsheet::setCellAt(size_t x, size_t y, const SpreadsheetCell &cell) {
+    m_impl->setCellAt(x, y, cell);
+}
+
+SpreadsheetCell &Spreadsheet::getCellAt(size_t x, size_t y) {
+    return m_impl->getCellAt(x, y);
+}
+
+//#############################Impl Implementation#######################################
 
 //# Impl method definition: Original private:
 // for move ctor and operator
@@ -48,31 +98,7 @@ void Spreadsheet::Impl::swap(Impl &othrer) noexcept {   // swap used in operator
     std::swap(m_cells, othrer.m_cells);
 }
 
-
-
-//#############################Implementation#######################################
-
-
-
-
-// ####Ctor's set, first let Spreadsheet's m_impl point to Impl class
-Spreadsheet::Spreadsheet() {
-    m_impl = make_unique<Impl>();
-}
-
-Spreadsheet::~Spreadsheet() = default;    // it will auto find ~Impl()
-
-Spreadsheet::Spreadsheet(size_t width, size_t height) {
-    m_impl = make_unique<Impl>(width, height);  // point to Impl(size_t width, size_t height)
-}
-
-Spreadsheet::Spreadsheet(const Spreadsheet &src) {
-    m_impl = make_unique<Impl>(*src.m_impl);
-}
-
-Spreadsheet::Spreadsheet(Spreadsheet &&rhs) noexcept: m_impl(std::move(rhs.m_impl)) {}
-
-//# Impl method definition
+//# Impl ctro
 Spreadsheet::Impl::~Impl() {    // Impl's dtor
     for (size_t i = 0; i < m_width; i++) {
         delete[] m_cells[i];    // It will call cell dtor
@@ -110,20 +136,6 @@ Spreadsheet::Impl::Impl(Impl &&rhs) noexcept {
      * */
 }
 
-
-//################Spreadsheet operator implementation
-Spreadsheet &Spreadsheet::operator=(const Spreadsheet &src) {
-    *m_impl = *src.m_impl;
-    return *this;
-}
-
-Spreadsheet &Spreadsheet::operator=(Spreadsheet &&rhs) noexcept {
-
-    if (this != &rhs) {
-        m_impl = std::move(rhs.m_impl);
-    }
-    return *this;
-}
 
 //# Impl operators
 Spreadsheet::Impl &Spreadsheet::Impl::operator=(const Spreadsheet::Impl &src) {
@@ -183,18 +195,6 @@ Spreadsheet::Impl &Spreadsheet::Impl::operator=(Spreadsheet::Impl &&rhs) noexcep
 };
 
 
-
-
-
-// another
-void Spreadsheet::setCellAt(size_t x, size_t y, const SpreadsheetCell &cell) {
-    m_impl->setCellAt(x, y, cell);
-}
-
-SpreadsheetCell &Spreadsheet::getCellAt(size_t x, size_t y) {
-    return m_impl->getCellAt(x, y);
-}
-
 //# Impl define
 
 void Spreadsheet::Impl::setCellAt(size_t x, size_t y, const SpreadsheetCell &cell) {
@@ -206,4 +206,3 @@ SpreadsheetCell &Spreadsheet::Impl::getCellAt(size_t x, size_t y) {
     verifyCoordinate(x, y);
     return m_cells[x][y];
 }
-

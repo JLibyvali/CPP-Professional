@@ -5,11 +5,8 @@
 #include "cell.h"
 #include <stdexcept>
 #include <utility>
-#include <vector>
-
 
 using namespace std;
-
 
 class table {
 
@@ -63,11 +60,6 @@ public:
         verifyCoordinate(x, y);
 
         return m_cells[x][y];
-    }
-// Operator
-
-    cell operator+=(const cell& rhs){
-
     }
 
 //  copy assignment Operator

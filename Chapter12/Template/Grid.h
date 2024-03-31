@@ -12,6 +12,13 @@
 #include <string>
 #include <algorithm>
 
+// Template friend
+template<typename T> class Grid;    // Forward declare Grid templates
+
+template<typename T>
+Grid<T> operator+(const Grid<T>& lhs, const Grid<T>& rhs);  // Declare operator as function here;
+
+
 template<typename T>
 class Grid {
 public:
@@ -46,6 +53,14 @@ public:
 
     size_t getHeight() const { return m_height; }
     size_t getWidth() const { return m_width; }
+
+
+// Template friend
+    friend Grid<T>  operator+<T>(const Grid& lhs, const Grid& rhs); // Mark the "operator" func as "friend" , so that 'operator+' can visit priate:
+    /*The template friend syntax get a little bit.
+     * but it also indicates:
+     * There exist "one-to-one" mapping relationship between class instance and function instance in template.
+     * */
 
 
 private:
@@ -147,7 +162,6 @@ public:
 
     size_t getHeight() const { return m_height; }
     size_t getWidth() const { return m_width; }
-
 
 private:
     void verify(size_t x, size_t y) const;

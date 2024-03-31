@@ -7,7 +7,7 @@ using namespace  std;
 
 // Function template
 
-static  const size_t NOT_FOUND  = static_cast<size_t>(-1);
+static  const size_t NOT_FOUND  = static_cast<size_t>(99);
 template<typename T>
 size_t Find(const T& value, const T* arr,size_t size){
 

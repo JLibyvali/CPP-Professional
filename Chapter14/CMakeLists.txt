@@ -4,3 +4,4 @@ project(Chapter14)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Chapter14 main.cpp)
+add_executable(Nomal NormalException/normalException.cpp)

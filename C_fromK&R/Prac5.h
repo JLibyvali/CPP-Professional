@@ -15,16 +15,24 @@ void swap(char *v[], int i, int j);
 int Getline(char *s, int limit);   // read one line once, return length
 
 // Prac 5-10
-char *STACK2;
-char  *HEAD;
+int *STACK2;    // calculate expression using stack
+int *HEAD;
 
-void push2(char c);
+void push2(int c);
+
+int pop2(void);
 
 void printStack(void);
 
-char pop2(void);
+int cal(int *s, int len);
 
-int cal(char *s, int len);
+
+// Prac 5-11
+void Qsort2(void *v[], int left, int right, int (*comp)(void *, void *));
+
+void swap2(void *v[], int left, int right);
+
+int numcmp(char *, char *);
 
 ///////////////////////////Prac 5-7
 char *alloc(int len) {
@@ -61,7 +69,6 @@ int readlines(char *lineptr[], int maxlines) {
 }
 
 void writelines(char *lineptr[], int nlines) {
-
     int i;
     printf("Output:\n");
     for (i = 0; i < nlines; i++) {
@@ -101,11 +108,11 @@ void Qsort(char *v[], int left, int right) {
 
 /////////////////////////Prac 5-10
 
-void push2(char c) {
+void push2(int c) {
     *STACK2++ = c;
 }
 
-char pop2(void) {
+int pop2(void) {
     if (*--STACK2 != '-')
         return (*STACK2);
     else
@@ -113,46 +120,46 @@ char pop2(void) {
 }
 
 void printStack(void) {
-    char *start = HEAD, *cur = STACK2;
+    int *start = HEAD, *cur = STACK2;
 
     if (*--cur == '-') {
         printf("Stack is empty\n");
     } else {
         while (start != STACK2) {
-            printf("%c\n", *start++);
+            printf("%d\n", *start++);
         }
     }
 }
 
-int cal(char *s, int len) {
-    STACK2 = (char *) malloc(2000 * sizeof(int));
+int cal(int *s, int len) {
+    STACK2 = (int *) malloc(2000 * sizeof(int));    // malloc heap for stack
     if (STACK2 == NULL) {
         printf("Malloc failed \n");
         return -1;
     }
-    memset(STACK2, '-', 1000* sizeof(char));
+    memset(STACK2, 0, 1000);
     HEAD = STACK2;
 
     int i, tmp;
     for (i = 0; i < len; i++) {
         if (isdigit(s[i])) {
-            push2(s[i]);
+            push2(s[i] - 48);   // push the num into stack
             printStack();
         } else {
-            switch (s[i]) {
-                case '+':
-                    push2(((pop2() - '0' )  + (pop2() - '0')) + '0');
+            switch (s[i]) { // ascii num for "+-*/"
+                case 43:
+                    push2(pop2() + pop2());
                     printStack();
                     break;
-                case '-':
+                case 45:
                     tmp = pop2();
                     push2(pop2() - tmp);
                     break;
-                case '*':
-                    push2(((pop2() - '0' ) * (pop2() - '0')) + '0');
+                case 42:
+                    push2(pop2() * pop2());
                     printStack();
                     break;
-                case '/':
+                case 47:
                     tmp = pop2();
                     if (tmp != 0) {
                         push2(pop2() / tmp);
@@ -164,7 +171,6 @@ int cal(char *s, int len) {
                 default:
                     printf("Error: unknown command\n");
                     break;
-
             }
         }
 
@@ -173,4 +179,48 @@ int cal(char *s, int len) {
     free(HEAD);
 
     return ans;
+
+
+}
+
+
+//////////////////////Prac 5-11
+void Qsort2(void *v[], int left, int right, int (*comp)(void *, void *)) {  // using the void* to handle any type data
+    int i, last;
+    if (left >= right)
+        return;
+
+    swap2(v, left, right);
+
+    last = left;
+    for (i = left + 1; i <= right; ++i) {
+        if ((*comp)(v[i], v[left]) < 0) // 'comp' is passed function
+            swap2(v, ++last, i);
+    }
+
+    swap2(v, left, last);
+    Qsort2(v, left, last - 1, comp);
+    Qsort2(v, last + 1, right, comp);
+
+}
+
+void swap2(void *v[], int left, int right) {
+    void *tmp;
+    tmp = v[left];
+    v[left] = v[right];
+    v[right] = tmp;
+}
+
+int numcmp(char * s1, char * s2){
+
+    double  v1,v2;
+    v1 = atof(s1);
+    v2 = atof(s2);
+
+    if(v1 < v2)
+        return -1;
+    else if (v1 > v2)
+        return 1;
+    else
+        return 0;
 }

@@ -1,7 +1,8 @@
 #include "Prac2.h"
 #include "Prac5.h"
 
-char *hexString;    // Prac 2-3
+// Prac 2-6
+char *hexString;
 void Prac2_3(void) {
     // Prac 2-3
     hexString = (char *) malloc(100);
@@ -96,40 +97,62 @@ void Prac4_4(void) {
 
 // Prac 5-7
 char *lineptr[MAXLINE];
+
 int Prac5_7(void) {
 
     int nlines; // line num for input
 
-    if((nlines = readlines(lineptr,MAXLINE)) >= 0){ // build one linked list for input string
-        Qsort(lineptr,0,nlines-1);
-        writelines(lineptr,nlines);
+    if ((nlines = readlines(lineptr, MAXLINE)) >= 0) { // build one linked list for input string
+        Qsort(lineptr, 0, nlines - 1);
+        writelines(lineptr, nlines);
         return 0;
-    }else{
+    } else {
         printf("Error: input too big\n");
         return 1;
     }
 }
 
-
 // Prac 5-10
-void Prac5_10(int argc, char *argv[]){
+void Prac5_10(int argc, char *argv[]) {
     int i;
-    char s[100];
-    for(i=0,--argc;argc > 0;argc--,i++){
-        s[i]  = (*++argv)[0];
+    int s[100];
+    memset(s, 0, sizeof(s));
+
+    for (i = 0, --argc; argc > 0; argc--, i++) {
+        s[i] = (int) (*++argv)[0];
     }
 
-    int res = cal(s,i);
-    printf("Res: %d\n",res);
+    int res = cal(s, i);
+    printf("Res: %d\n", res);
 
 }
+
+char *lineptr2[1000];
+// Prac 5-11
+void Prac5_11(int argc, char* argv[]){  // sort any type string, with passing the functional pointer as argyments.
+    int nlines;
+    int numeric = 0;
+
+    if(argc > 1 && strcmp(argv[1],"-n") == 0)
+        numeric  = 1;
+    if((nlines = readlines(lineptr2,1000)) >= 0  ){
+        Qsort2((void **)lineptr2,0,nlines-1,(int (*)(void*,void*) )(numeric ? numcmp : strcmp) ); // pass the numcmp or strcmp to initialize function pointer
+        writelines(lineptr,nlines);
+        return;
+    } else{
+        printf("Input too bit to sort\n");
+    }
+
+}
+
+
+// Prac 6-2
+// using self reference 'struct' , and the binary tree to count the key word nums
 
 
 int main(int argc, char *argv[]) {
 //    while (argc--){
 //        printf("%c :%d\n",(*++argv)[0],argc);
 //    }
-    Prac5_10(argc,argv);
-
     exit(0);
 }

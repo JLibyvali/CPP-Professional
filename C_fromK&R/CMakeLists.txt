@@ -6,6 +6,7 @@ set(CMAKE_C_STANDARD 11)
 add_executable(C_fromK_R main.c
         Prac2.h
         Prac5.h
+        Prac6.h
 )
 
 target_compile_definitions(C_fromK_R PRIVATE ARGUMENTS="2 3 4 + -")

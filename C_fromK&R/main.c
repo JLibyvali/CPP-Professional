@@ -1,8 +1,10 @@
 #include "Prac2.h"
 #include "Prac5.h"
+#include "Prac6.h"
 
 // Prac 2-6
 char *hexString;
+
 void Prac2_3(void) {
     // Prac 2-3
     hexString = (char *) malloc(100);
@@ -128,18 +130,20 @@ void Prac5_10(int argc, char *argv[]) {
 }
 
 char *lineptr2[1000];
+
 // Prac 5-11
-void Prac5_11(int argc, char* argv[]){  // sort any type string, with passing the functional pointer as argyments.
+void Prac5_11(int argc, char *argv[]) {  // sort any type string, with passing the functional pointer as argyments.
     int nlines;
     int numeric = 0;
 
-    if(argc > 1 && strcmp(argv[1],"-n") == 0)
-        numeric  = 1;
-    if((nlines = readlines(lineptr2,1000)) >= 0  ){
-        Qsort2((void **)lineptr2,0,nlines-1,(int (*)(void*,void*) )(numeric ? numcmp : strcmp) ); // pass the numcmp or strcmp to initialize function pointer
-        writelines(lineptr,nlines);
+    if (argc > 1 && strcmp(argv[1], "-n") == 0)
+        numeric = 1;
+    if ((nlines = readlines(lineptr2, 1000)) >= 0) {
+        Qsort2((void **) lineptr2, 0, nlines - 1, (int (*)(void *, void *)) (numeric ? numcmp
+                                                                                     : strcmp)); // pass the numcmp or strcmp to initialize function pointer
+        writelines(lineptr, nlines);
         return;
-    } else{
+    } else {
         printf("Input too bit to sort\n");
     }
 
@@ -148,11 +152,76 @@ void Prac5_11(int argc, char* argv[]){  // sort any type string, with passing th
 
 // Prac 6-2
 // using self reference 'struct' , and the binary tree to count the key word nums
+void Prac6_2(void) {
+    char word[1000];
+    struct key *p;
+
+    while (getword(word, 1000) != EOF) {
+
+        if (isalpha(word[0]))
+            if ((p = binsearch(word, keytab, NKEYS)) != NULL)
+                p->cnt++;
+    }
+    int f = 0;
+    for (p = keytab; p < keytab + NKEYS; p++) {
+
+        if (p->cnt > 0)
+            f = 1;
+        printf("Has result: %4d %s \n", p->cnt, p->word);
+
+        if (f)
+            printf("None result matched\n");
+    }
+
+    return;
+}
+
+
+// Prac6-4
+void Prac6_4() {
+    struct tnode *root;
+    char word[100];
+
+    root = NULL;
+
+    while (getword(word,100) != EOF)
+        if(isalpha(word[0]))
+            root = addTree(root,word);
+
+    treeprint(root);
+    return;
+}
+
+//Prac6-6
+void Prac6_6(void){
+
+    char* name[] = {"an","bn","cn"};
+    char* defn[] = {"1","2","3"};
+
+    int i=3;
+    struct nlist* p;
+    while (i-->0){
+        if(install((*name)++,(*defn)++) == NULL)
+            return;
+        else
+            continue;
+    }
+    char s[20];
+    while (scanf("%s",&s) != EOF){
+
+        if(( p = lookup(s) )!=NULL)
+            printf("Existed:Define %s  %s\n",p->name,p->defn);
+        else
+            printf("Cannot find define\n");
+    }
+
+}
 
 
 int main(int argc, char *argv[]) {
 //    while (argc--){
 //        printf("%c :%d\n",(*++argv)[0],argc);
 //    }
+    Prac6_6();
     exit(0);
 }

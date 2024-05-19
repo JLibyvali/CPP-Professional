@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/jlibyvali/CLionProjects/C_fromK&R/build",
+  "command": "/usr/bin/clang -g -std=gnu11 -o CMakeFiles/C_fromK_R.dir/prog.c.o -c \"/home/jlibyvali/CLionProjects/C_fromK&R/prog.c\"",
+  "file": "/home/jlibyvali/CLionProjects/C_fromK&R/prog.c",
+  "output": "CMakeFiles/C_fromK_R.dir/prog.c.o"
+}
+]

@@ -3,13 +3,13 @@ project(DataStructure)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(DataStructure main.cpp)
-add_executable(LinkedList
-        #LinkedList/SinglyList.c
-        LinkedList/Contact.cpp
-        LinkedList/Contact.h
-      #  LinkedList/DoublyList.c
-        LinkedList/SinglyList.cpp
+set(LISTDIR   LinkedList)
+set(STACKDIR  Stacks)
+set(QUEDIR  Queue)
+
+include_directories(${CMAKE_SOURCE_DIR}/${LISTDIR})
+
+add_executable(List
+  main.cpp
+  LinkedList/DoublyList.cpp
 )
-add_executable(Stacks Stacks/Stack.cpp)
-add_executable(Queue Queue/queue.cpp)

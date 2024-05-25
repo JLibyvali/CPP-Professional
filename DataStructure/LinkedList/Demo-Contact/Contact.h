@@ -10,7 +10,7 @@
 #include <string>
 
 class Contact{
-    friend  std::ostream& operator<< (std::ostream& os,const Contact& c);
+friend  std::ostream& operator<< (std::ostream& os,const Contact& c);
 
 public:
     Contact(std::string name ="none");

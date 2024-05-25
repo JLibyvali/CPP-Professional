@@ -4,12 +4,10 @@
 
 /*
  * Stacks has lots of use
- *
  * such as function calling/recursion
  *         Redo/Undo operations
  *         balanced parentheses
  *         Infix to Postfix/Prefix conversion
- *
  * */
 
 #include <iostream>
@@ -31,7 +29,6 @@ public:
         }
 
     }
-
 
     bool isEmpty(){
 

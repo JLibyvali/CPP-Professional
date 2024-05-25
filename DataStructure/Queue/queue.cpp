@@ -7,7 +7,6 @@
 
 /* Implements of queue use array
  *
- *
  * */
 const size_t QUEUESIZE=10;
 class Queue{

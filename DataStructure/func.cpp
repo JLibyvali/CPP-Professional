@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <exception>
+#include <utility>
 #ifdef LIST1
 #include "DoublyList.h"
 #endif
@@ -11,6 +12,7 @@
 #include <cmath>
 #include <random>
 #include <vector>
+#include "Stack.h"
 
 
 
@@ -105,6 +107,67 @@ void SingalListPrac(void) {
         printf("Exception occurred: %s, exit\n",ex.what());
     }
 }
+
+
+void PracStack(void){
+
+    std::vector<stk::SElem>  vec(100,{0,'0'});
+
+    std::random_device rd;
+    std::mt19937_64 gen64;
+
+    std::uniform_int_distribution<int> dist(65,90);
+
+    for(auto& ele : vec){
+
+        int num = dist(gen64);
+        ele.id = num;
+        ele.c = num ;
+    }
+
+    stk::StackLinear stack1;
+    for(int i=0;i<5;i++){
+        stack1.push(vec[i]);
+    }
+
+    stack1.printStk();
+
+    stk::SElem  ans = stack1.pop();
+    printf("Pop id: %d, c: %c \n",ans.id,ans.c);
+
+    stk::SElem ans2  = stack1.changeStk(vec[2], vec[99]);
+    printf("Chang id: %d, c: %c \n",ans2.id,ans2.c);
+    stack1.printStk();
+
+    stk::StackLinear stack2;
+    for(int i = 10;i<14;i++){
+        stack2.push(vec[i]);
+    }
+
+    stk::StackLinearB stackB  = stk::bind(stack1, stack2);
+
+    stackB.printStkB();
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif
 

@@ -15,4 +15,4 @@ file(GLOB LSRC "${CMAKE_SOURCE_DIR}/${LISTDIR}/*.cpp")
 # DoublyList or SingalList
 add_compile_definitions(LIST2)
 
-add_executable(List main.cpp func.cpp ${QSSRC} ${LSRC})
+add_executable(${CMAKE_PROJECT_NAME} main.cpp func.cpp ${QSSRC} ${LSRC})

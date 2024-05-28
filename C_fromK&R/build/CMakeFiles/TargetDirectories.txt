@@ -1,3 +1,0 @@
-/home/jlibyvali/CLionProjects/C_fromK&R/build/CMakeFiles/C_fromK_R.dir
-/home/jlibyvali/CLionProjects/C_fromK&R/build/CMakeFiles/edit_cache.dir
-/home/jlibyvali/CLionProjects/C_fromK&R/build/CMakeFiles/rebuild_cache.dir

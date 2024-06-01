@@ -1,9 +1,10 @@
 #include <cstdio>
 
 //**************************** Forward declaration
-void PracStack(void);
+
+void PracTree();
 
 int main() {
-    PracStack(); 
+    PracTree(); 
     return 0;
 }

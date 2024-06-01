@@ -71,22 +71,26 @@ class StackLinearB : public StackLinear {
     SElem *dataB[2 * MAX_LEN];
 };
 
+
 // List Stack
 struct snode {
     SElem data;
     snode *next;
-    snode *prev;
 
     snode() {
         data = SElem();
-        next = prev = nullptr;
+        next = nullptr;
     }
     snode(int _id, char _c) {
         data = SElem(_id, _c);
-        next = prev = nullptr;
+        next = nullptr;
     }
 };
 
+/**
+ * @brief It's just the Single list, push and pop at head.
+ * 
+ */
 class StackList {
   public:
     StackList();

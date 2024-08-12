@@ -1,0 +1,3 @@
+/home/jlibyvali/CLionProjects/DataStructure/SortandSearch/build/CMakeFiles/sort.dir
+/home/jlibyvali/CLionProjects/DataStructure/SortandSearch/build/CMakeFiles/edit_cache.dir
+/home/jlibyvali/CLionProjects/DataStructure/SortandSearch/build/CMakeFiles/rebuild_cache.dir

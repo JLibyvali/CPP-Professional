@@ -3,12 +3,6 @@ project(DataStructure)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(LISTDIR LinkedList)
-set(QandSDIR QandS)
-set(TREEDIR Tree)
-
-
-
 include_directories(${CMAKE_CURRENT_LIST_DIR}/${LISTDIR}
                     ${CMAKE_CURRENT_LIST_DIR}/${QandSDIR}
                     ${CMAKE_CURRENT_LIST_DIR}/${TREEDIR})
@@ -20,4 +14,4 @@ file(GLOB TSRC "${CMAKE_CURRENT_LIST_DIR}/${TREEDIR}/*.cpp")
 # DoublyList or SingalList
 add_compile_definitions(LIST2)
 
-add_executable(${CMAKE_PROJECT_NAME} main.cpp func.cpp ${QSSRC} ${LSRC} ${TSRC})
+add_executable(${CMAKE_PROJECT_NAME} main.cpp)

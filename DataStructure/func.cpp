@@ -181,42 +181,42 @@ void Pracque(void) {
 
 
 
-void func(tre::tnode &next) {
+// void func(tre::tnode &next) {
 
-    if (next.lchild == nullptr && next.rchild == nullptr) {
-        next.lchild = new  tre::tnode(next.id+1);
-        next.rchild = new  tre::tnode(next.lchild->id+1);
-        return;
-    }
+//     if (next.lchild == nullptr && next.rchild == nullptr) {
+//         next.lchild = new  tre::tnode(next.id+1);
+//         next.rchild = new  tre::tnode(next.lchild->id+1);
+//         return;
+//     }
 
-    func(*next.lchild);
+//     func(*next.lchild);
 
-    func(*next.rchild);
+//     func(*next.rchild);
 
-    return;
+//     return;
 
-}
-void PracTree() {
+// }
+// void PracTree() {
 
-    random_device dev;
-    mt19937_64 gen;
+//     random_device dev;
+//     mt19937_64 gen;
 
-    uniform_int_distribution<int> dist(111, 999);
+//     uniform_int_distribution<int> dist(111, 999);
 
-    vector<int> vec(20, 0);
+//     vector<int> vec(20, 0);
 
-    for (auto &ele : vec) {
-        ele = dist(gen);
-    }
+//     for (auto &ele : vec) {
+//         ele = dist(gen);
+//     }
 
-    tre::Tree tree;
+//     tre::Tree tree;
 
-    bool fla = true;
-    for (int i = 0; i < 3; i++) {
-        func(tree.Root());
-    }
+//     bool fla = true;
+//     for (int i = 0; i < 3; i++) {
+//         func(tree.Root());
+//     }
 
-    tree.PreOrderTra(tree.Root());
-}
+//     tree.PreOrderTra(tree.Root());
+// }
 
 #endif

@@ -1,9 +1,125 @@
 #include "Tree.h"
 #include <cstdio>
+#include <ctime>
+#include <cwchar>
 #include <functional>
+#include <memory>
+#include <stack>
 #include <stdexcept>
+#include <vector>
 
-int tre::Tree::TreeDepth() { return depth; }
+int tre::Tree::TreeDepth() {
+    return depth;
+}
+
+bool tre::Tree::isTreeEmpty() {
+    return (HEAD == nullptr);
+}
+
+/**
+ * @brief return root node
+ *
+ * @return tre::tnode&
+ */
+tre::tnode &tre::Tree::Root() {
+    return *HEAD;
+}
+
+/**
+ * @brief return one child's parent node
+ *
+ * @param child
+ * @return tre::tnode&
+ */
+tre::tnode &tre::Tree::Parent(tnode &child) {
+
+    if (HEAD->lchild == nullptr && HEAD->rchild == nullptr)
+        return *HEAD;
+
+    auto traverse = [&]() -> tnode & {
+        auto cur = HEAD;
+
+        std::stack<std::shared_ptr<tnode>> st;
+        st.push(cur);
+
+        while (!st.empty()) {
+            auto tmp = st.top();
+
+            if (*tmp == child)
+                return *tmp;
+
+            st.pop();
+
+            if (tmp->rchild != nullptr) st.push(tmp->rchild);
+            if (tmp->lchild != nullptr) st.push(tmp->lchild);
+        }
+
+        throw std::invalid_argument("Invalid child node\n");
+    };
+
+    auto res = traverse();
+    return res;
+}
+
+tre::tnode &tre::Tree::Lchild(tre::tnode &src) {
+    if (HEAD->lchild == nullptr && HEAD->rchild == nullptr)
+        return *HEAD;
+
+    // use stack to emulate recursion, mid-order traverse
+    auto traverse = [&]() -> tnode & {
+        auto cur = HEAD;
+        std::stack<std::shared_ptr<tnode>> st;
+
+        while (cur != nullptr || !st.empty()) {
+
+            while (cur != nullptr) {
+                st.push(cur);
+                cur = cur->lchild;
+            }
+
+            auto tmp = st.top();
+            st.pop();
+
+            if (*tmp == src)
+                return *tmp;
+
+            cur = tmp->rchild;
+        }
+        throw std::invalid_argument("invalid src node");
+    };
+
+    auto res = traverse();
+    return res;
+}
+
+tre::tnode &tre::Tree::Rchild(tre::tnode &src) {
+
+    if (HEAD->lchild == nullptr && HEAD->rchild == nullptr)
+        return *HEAD;
+
+    // use stack to emulate recursion, post-order traverse
+    auto traverse = [&]() -> tnode & {
+        auto cur = HEAD;
+        std::stack<std::shared_ptr<tnode>> st;
+
+        st.push(cur);
+
+        while (!st.empty()) {
+
+            auto tmp = st.top();
+            st.pop();
+
+            if (*tmp == src)
+                return *tmp;
+
+            if (tmp->lchild) st.push(tmp->lchild);
+            if (tmp->rchild) st.push(tmp->rchild);
+        }
+    };
+
+    auto res = traverse();
+    return res;
+}
 
 /**
  * @brief Traverse the tree by preorder
@@ -79,7 +195,7 @@ bool tre::Tree::MidOrderTra(tnode &next, tnode &src, tnode &res) {
  *
  * @param next
  */
-void tre::Tree::PostOrderTra(tre::tnode &next) {
+void tre::Tree::PostOrderTra(tnode &next) {
 
     if (next.lchild == nullptr && next.rchild == nullptr) {
         printf("Leaf node: %d\t", next.id);
@@ -97,15 +213,6 @@ void tre::Tree::PostOrderTra(tre::tnode &next) {
 }
 
 /**
- * @brief return root node
- *
- * @return tre::tnode&
- */
-tre::tnode &tre::Tree::Root() {
-    return *HEAD;
-}
-
-/**
  * @brief Insert node Src after node Dst, using DestTree, flag for lchild, or rchild
  *
  * @param destTree
@@ -114,122 +221,72 @@ tre::tnode &tre::Tree::Root() {
  * @param flag true for lchild, and false for rchild
  * @return int
  */
-int tre::Tree::InsertNode(tre::tnode &dst, tre::tnode &src, bool flag) {
+int tre::Tree::InsertNode(int _id, tnode &src, bool flag) {
     if (HEAD == nullptr)
         return -1;
 
+    auto funct = [&]() -> tnode & {
+        auto cur = HEAD;
+        std::stack<std::shared_ptr<tnode>> st;
+
+        st.push(cur);
+        while (!st.empty()) {
+
+            auto tmp = st.top();
+            st.pop();
+
+            if (tmp->id == _id)
+                return *tmp;
+
+            if (tmp->rchild) st.push(tmp->rchild);
+            if (tmp->lchild) st.push(tmp->lchild);
+        }
+        throw std::invalid_argument("Invalid _id\n");
+    };
+
+    auto res  = funct();
+    auto temp = std::make_shared<tnode>(new tnode());
+
     if (flag) {
-
-        std::function<void(tre::tnode & next)> funct = [&](tre::tnode &next) {
-            if (next.lchild == nullptr && next.rchild == nullptr) {
-                if (next.id == dst.id) {
-
-                    next.lchild = &src;
-                    return;
-
-                } else {
-                    return;
-                }
-            }
-
-            funct(*next.lchild);
-
-            if (next.id == dst.id) {
-
-                next.lchild = &src;
-                return;
-            } else {
-                return;
-            }
-
-            funct(*next.rchild);
-        };
+        *temp      = src;
+        res.lchild = std::make_shared<tnode>(&temp);
 
     } else {
-        std::function<void(tre::tnode & next)> funct = [&](tre::tnode &next) {
-            if (next.lchild == nullptr && next.rchild == nullptr) {
-                if (next.id == dst.id) {
-
-                    next.rchild = &src;
-                    return;
-                    
-                } else {
-                    return;
-                }
-            }
-
-            funct(*next.lchild);
-
-            if (next.id == dst.id)
-                next.rchild = &src;
-
-            funct(*next.rchild);
-        };
+        *temp      = src;
+        res.rchild = std::make_shared<tnode>(&temp);
     }
 
     return 0;
 }
 
-/**
- * @brief Insert one subtree at dst'
- *
- * @param destTree
- * @param dst
- * @param src
- * @param flag true for left child and false for  right child
- * @return int
- */
-int tre::Tree::InsertTree(Tree &destTree, tnode &dst, Tree &src, bool flag) {
-    if (HEAD == nullptr)
+int tre::Tree::Changenode(const Tree &te, int _old, int _new) {
+
+    if (te.HEAD == nullptr)
         return -1;
 
-    if (flag) {
+    auto cur = HEAD;
+    std::stack<std::shared_ptr<tnode>> st;
 
-        std::function<void(tre::tnode & next, tre::tnode & res)> funct = [&](tre::tnode &next, tre::tnode &res) {
-            if (next.lchild == nullptr && next.rchild == nullptr) {
-                if (next.id == dst.id) {
-                    next.lchild = HEAD;
-                    return;
-                } else {
-                    return;
-                }
-            }
+    auto traverse = [&, _old]() -> tnode & {
+        st.push(cur);
+        while (!st.empty()) {
+            auto tmp = st.top();
 
-            funct(*next.lchild, res);
+            st.pop();
 
-            if (next.id == dst.id) {
-                next.lchild = HEAD;
-                return;
-            } else {
-                return;
-            }
+            if (tmp->id == _old)
+                return *tmp;
 
-            funct(*next.rchild, res);
-        };
+            if (tmp->rchild) st.push(tmp->rchild);
+            if (tmp->lchild) st.push(tmp->lchild);
+        }
 
-    } else {
-        std::function<void(tre::tnode & next, tre::tnode & res)> funct = [&](tre::tnode &next, tre::tnode &res) {
-            if (next.lchild == nullptr && next.rchild == nullptr) {
-                if (next.id == dst.id) {
-                    next.rchild = HEAD;
-                    return;
-                } else {
-                    return;
-                }
-            }
+        throw std::invalid_argument("Invalid id\n");
+    };
 
-            funct(*next.lchild, res);
+    auto res = traverse();
+    res.id   = _new;
 
-            if (next.id == dst.id) {
-                next.rchild = HEAD;
-                return;
-            } else {
-                return;
-            }
-
-            funct(*next.rchild, res);
-        };
-    }
     return 0;
 }
 
@@ -243,22 +300,23 @@ int tre::Tree::Destroy() {
     if (HEAD == nullptr)
         return -1;
 
-    std::function<void(tre::tnode & next)> func = [&](tre::tnode &next) -> void {
-        if (next.lchild == nullptr && next.rchild == nullptr) {
-            return;
+    auto traverse = []() {
+        auto cur = HEAD;
+        std::stack<std::shared_ptr<tnode>> st;
+        std::vector<std::shared_ptr<tnode> > res;
+
+        st.push(cur);
+        while (!st.empty()) {
+
+            auto tmp = st.top();
+            st.pop();
+
+            res.push_back(tmp);
+
+            if(tmp->lchild) st.push(tmp->lchild);
+            if(tmp->rchild) st.push(tmp->rchild);
         }
-
-        func(*next.lchild);
-        delete next.lchild;
-        next.lchild = nullptr;
-        func(*next.rchild);
-        delete next.rchild;
-        next.rchild = nullptr;
     };
-
-    delete HEAD;
-    HEAD = nullptr;
-    return 0;
 }
 
 /**

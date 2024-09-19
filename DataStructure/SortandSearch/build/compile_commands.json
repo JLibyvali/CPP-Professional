@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/jlibyvali/CLionProjects/DataStructure/SortandSearch/build",
-  "command": "/usr/bin/clang++ -g -o CMakeFiles/sort.dir/Sort.cpp.o -c /home/jlibyvali/CLionProjects/DataStructure/SortandSearch/Sort.cpp",
-  "file": "/home/jlibyvali/CLionProjects/DataStructure/SortandSearch/Sort.cpp",
-  "output": "CMakeFiles/sort.dir/Sort.cpp.o"
-}
-]

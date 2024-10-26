@@ -10,10 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_FLAGS "-g -ggdb -o0 -Wall" )
 set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS} )
 
-set(SRCS raw_pointer.cpp size.cpp
-smart_pointer.cpp )
+set(SRCS 5rules.cpp )
 
 
-add_executable(size class_size.cpp)
-add_executable(raw raw_pointer.cpp)
-add_executable(smart_ptr smart_pointer.cpp)
+add_executable(5rule 5rules.cpp)

@@ -1,8 +1,15 @@
-data_time
-regex
-asio
-atomic
-interprocess
-filesystem
-log
-bind
+- [x] data_time  
+- [x] smart_pointer
+- [x] regex  
+- [x] filesystem  
+- [ ] log  
+- [ ] asio  
+- [ ] atomic  
+- [ ] interprocess  
+- [ ] bind  
+
+
+# Some useful tools
+- [x] noncopyable
+- [] uuid
+- [] assign

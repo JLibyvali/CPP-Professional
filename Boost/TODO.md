@@ -4,9 +4,7 @@
 - [x] filesystem  
 - [ ] log  
 - [ ] asio  
-- [ ] atomic  
 - [ ] interprocess  
-- [ ] bind  
 
 
 # Some useful tools

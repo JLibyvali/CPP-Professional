@@ -1,4 +1,3 @@
-#include <static_assert>
 #include "debug.h"
 
 #include <boost/filesystem.hpp>

@@ -10,6 +10,5 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_FLAGS "-g -ggdb -o0 -Wall" )
 set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS} )
 
-add_executable(iterator baisc_iterator.cpp)
-add_executable(stream_iterator stream_iterator.cpp)
-add_executable(ranges ranges.cpp)
+add_executable(time time.cpp)
+add_executable(perf test_perf.cpp)

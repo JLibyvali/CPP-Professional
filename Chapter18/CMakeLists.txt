@@ -1,13 +1,13 @@
-cmake_minimum_required(VERSION 3.28)
-project(Chapter18)
+cmake_minimum_required(VERSION 3.20)
+project(Iterator)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(Container main.cpp
-        Vector/RoundRobin.h
-        Vector/Process.h
-        Queue/PacketBuff.h
-        Priority_queue/Error.h
-        Associated/BankDB.h
-        Associated/Buddy.h
-        Bitset/CableCompany.h)
+
+# Compiler setting
+set(CMAKE_C_FLAGS "-g -ggdb -o0 -Wall" )
+set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS} )
+
+add_executable(vecotr vector.cpp)

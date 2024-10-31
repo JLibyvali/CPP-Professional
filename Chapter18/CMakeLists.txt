@@ -7,7 +7,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 
 # Compiler setting
-set(CMAKE_C_FLAGS "-g -ggdb -o0 -Wall" )
+set(GPROF "-pg")
+set(CMAKE_C_FLAGS "-g -ggdb -o0 -Wall " )
 set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS} )
 
-add_executable(vecotr vector.cpp)
+add_executable(vecotr_perf vector_test.cpp vector_perf.h)
+add_executable(vecotr_size vecotr_size.cpp vector_perf.h)

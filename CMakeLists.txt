@@ -12,6 +12,28 @@ include_directories (
     include
 )
 
+# CPP Modules
+# Requirements: CMake Version >= 3.28, Header Unit still not support, std library need module encapsulates
+# Clang Version >= 16.0, GCC Version >= 14
+# Header Module Unit need Clang >= 18.0
+add_library ( Hello )
+target_sources ( Hello PUBLIC FILE_SET hellomod_srcs TYPE CXX_MODULES FILES
+    Module/Hello.cppm
+    Module/hello_other.cppm
+)
+target_sources ( Hello PUBLIC Module/hello_impl.cpp )
+
+add_library ( Sort )
+target_sources ( Sort PUBLIC FILE_SET sortmod_srcs TYPE CXX_MODULES FILES
+    Module/Sort.cppm
+    Module/Sort_interface.cppm
+    Module/Sort_implpart.cppm
+)
+target_sources ( Sort PUBLIC Module/Sort_impl.cpp )
+
+add_executable ( HelloSort Module/User.cpp )
+target_link_libraries ( HelloSort PRIVATE Hello Sort )
+
 # boost
 # add_subdirectory(Boost)
 
@@ -26,7 +48,7 @@ add_executable ( 5rules_constructor Chapter8_9/5rules.cpp )
 
 # OOP  inherit
 add_executable ( basic_inheritance Chapter10/inherit.cpp )
-add_executable ( diamond_inheritace Chapter10/multi_inherit.cpp )
+add_executable ( diamond_inheritace Chapter10/diamond_inheritance.cpp )
 add_executable ( override_load Chapter10/override_load.cpp )
 add_executable ( type_cast Chapter10/cast.cpp )
 
@@ -39,7 +61,6 @@ add_executable ( latch_barrier Chapter27/latch.cpp )
 add_executable ( semaphore Chapter27/semaphore.cpp )
 target_link_libraries ( atomic PUBLIC -latomic )
 
-
 # Container related
-add_executable(vecotr_perf Chapter18/vector_test.cpp Chapter18/vector_perf.h)
-add_executable(vecotr_size Chapter18/vecotr_size.cpp Chapter18/vector_perf.h)
+add_executable ( vecotr_perf Chapter18/vector_test.cpp Chapter18/vector_perf.h )
+add_executable ( vecotr_size Chapter18/vecotr_size.cpp Chapter18/vector_perf.h )
